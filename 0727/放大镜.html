@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜</title>
+	<style>
+		#box{position: relative;width: 180px;}
+		.mark{height: 80px;width: 80px;background: yellow;opacity: 0.4;position: absolute;top:0;left: 0;display: none;}
+		#bigimgbox{width: 400px;height: 400px;margin-left: 300px;overflow: hidden;position: relative;}
+		#bigimgbox>img{position: absolute;top: 0;left: 0;}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="b2.jpg" alt="">
+		<div class="mark"></div>
+	</div>
+	<div id="bigimgbox">
+		<img src="b1.jpg" alt="" >
+	</div>
+	<script>
+		var oBox=document.getElementById('box');
+		var oMark=oBox.getElementsByClassName('mark')[0];
+		var oBigBox=document.getElementById('bigimgbox');
+		var oImg=oBigBox.querySelector('#bigimgbox>img');
+		oBox.onmouseenter=function(){
+			//var ev=ev||window.event;
+			oMark.style.display='block';
+		}
+		oBox.onmousemove=function(ev){
+			var ev=ev||window.event;
+			var T=ev.clientY-oMark.offsetHeight/2-oBox.offsetTop;
+			var L=ev.clientX-oMark.offsetWidth/2-oBox.offsetLeft;
+			if (T<0) {
+				T=0;
+			}else if(T>oBox.offsetHeight-oMark.offsetHeight){
+				T=oBox.offsetHeight-oMark.offsetHeight;
+			}
+			if (L<0) {
+				L=0;
+			}else if(L>oBox.offsetWidth-oMark.offsetWidth){
+				L=oBox.offsetWidth-oMark.offsetWidth;
+			}
+			oMark.style.top=T+'px';
+			oMark.style.left=L+'px';
+			var a=T/(oBox.offsetHeight-oMark.offsetHeight);
+			var b=L/(oBox.offsetWidth-oMark.offsetWidth);
+			oImg.style.top=-a*(oImg.offsetHeight-oBigBox.offsetHeight)+'px';
+			oImg.style.left=-b*(oImg.offsetWidth-oBigBox.offsetWidth)+'px';
+
+		}
+		oBox.onmouseleave=function(){
+			oMark.style.display='none';
+		}
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>滚动条与滚轮</title>
+	<style>
+	*{margin: 0;padding: 0;}
+		#box{height: 250px;width: 10px;background: #333;margin-left: 100px;position: relative;}
+		.move{height: 50px;width: 10px;background: red;position: absolute;top: 0;left: 0;}
+		.content{width: 200px;height:200px;border: 1px solid black;position: absolute;left: 300px;overflow: hidden;}
+		p{position: absolute;top: 0;left: 0;}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div class="move"></div>
+	</div>
+	<div class="content">
+		<p>吾问无为谓吾问无为谓吾问无为谓吾问无为谓呜呜呜呜呜呜
+			吾问无为谓吾问无为谓吾问无为谓吾问无为谓呜呜呜呜呜呜
+			吾问无为谓吾问无为谓吾问无为谓吾问无为谓呜呜呜呜呜呜
+			吾问无为谓吾问无为谓吾问无为谓吾问无为谓呜呜呜呜呜呜
+		</p>
+	</div>
+	<script>
+		var oBox=document.getElementById('box');
+		var oMove=oBox.getElementsByTagName('div')[0];
+		var oContent=document.getElementsByClassName('content')[0];
+		var oP=oContent.getElementsByTagName('p')[0];
+		drag(oMove);
+		var btn=true;
+		oMove.style.height=(oContent.offsetHeight/oP.offsetHeight)*oBox.offsetHeight+'px';
+		if (oP.offsetHeight<oContent.offsetHeight) {
+			oMove.style.height=0;
+			return false;
+		}
+
+		function drag(obj){
+			var disY=0;
+			obj.onmousedown=function(ev){
+				var ev=ev||window.event;
+				disX=ev.clientX-obj.offsetLeft;
+				disY=ev.clientY-obj.offsetTop;
+				alert(disY);
+				document.onmousemove=function(ev){
+					var ev=ev||window.event;
+					var T=ev.clientY-disY;
+					if (T<0) {
+						T=0;
+					} else if(T>oBox.offsetHeight-obj.offsetHeight){
+						T=oBox.offsetHeight-obj.offsetHeight;
+					}
+					obj.style.top=T+'px';
+					var b=T/(oBox.offsetHeight-obj.offsetHeight);    //比例,可滑动的距离之比
+					oP.style.top=-b*(oP.offsetHeight-oContent.offsetHeight)+'px';
+				} 
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					document.onmouseup=null;
+				}
+
+			}
+			return false;
+		}
+
+		if (oContent.addEventListener) {
+			oContent.addEventListener('DOMMouseScroll',move,false);
+		}
+		oContent.onmousewheel=move;
+		function move(ev){
+			var ev=ev||window.event;
+			if (ev.detail) {
+				btn=ev.detail<0?true:false;
+			} else {
+				btn=ev.wheelDelta>0?true:false;
+			}
+			if (btn) {
+				var T=oMove.offsetTop-10;
+				if (T<0) {T=0;}
+			}else{
+				var T=oMove.offsetTop+10;
+				if(T>oBox.offsetHeight-oMove.offsetHeight){
+					T=oBox.offsetHeight-oMove.offsetHeight;
+				}
+			}
+			oMove.style.top=T+'px';
+			var b=T/(oBox.offsetHeight-oMove.offsetHeight);
+			oP.style.top=-b*(oP.offsetHeight-oContent.offsetHeight)+'px';
+			if (ev.preventDefault) {
+				ev.preventDefault();
+			} else {
+				return false;
+			}
+		}
+
+	</script>
+</body>
+</html>

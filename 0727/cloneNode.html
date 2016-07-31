@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>cloneNode</title>
+</head>
+<body>
+	<ul>
+		<li>1111</li>
+		<li>2222</li>
+		<li>3333</li>
+	</ul>
+	<ul>
+		<li>aaa</li>
+		<li>bbb</li>
+		<li>ccc</li>
+	</ul>
+	<ul>
+		<li>qqq</li>
+		<li>eee</li>
+		<li>www</li>
+	</ul>
+	<ul></ul>
+	<script>
+		var aUl=document.getElementsByTagName('ul');
+		for (var i = 0; i < aUl.length-1; i++) {
+			findData(aUl[i]);
+		}
+		function findData(obj){
+			var oLi=null;
+			obj.onclick=function(ev){
+				var ev=ev||window.event;
+				var target=ev.target||ev.srcElement;
+				if (target.nodeName.toLowerCase()=='li' && !oLi) {
+					oLi=target.cloneNode(true);
+					aUl[aUl.length-1].appendChild(oLi);
+				}else{
+					oLi.innerHTML=target.innerHTML;
+				}
+				
+			}
+		}
+	</script>
+</body>
+</html>

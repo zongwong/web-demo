@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div{height: 100px;width: 100px;}
+		ul li{float: left;}
+	</style>
+</head>
+<body>
+	<span>1</span>
+	<span>2</span>
+	<span>3</span>
+	<span>4</span>
+	<span>5</span>
+	<br>	
+	<span>1</span>
+	<span>2</span>
+	<span>3</span>
+	<span>4</span>
+	<span>5</span>
+	<script>
+	
+		var aLi=document.getElementsByTagName('span');
+		var arr=[];
+		for (var i = 0; i < aLi.length; i++) {
+			arr.push([aLi[i].offsetLeft,aLi[i].offsetTop])
+			
+}
+		console.log(arr);
+			
+	</script>
+</body>
+</html>

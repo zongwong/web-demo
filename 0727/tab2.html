@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tab2</title>
+	<style>
+		.active{background: yellow;}
+		ul{position: relative;}
+		ul>li{list-style: none;width: 200px;height: 200px;border:1px solid #333;position: absolute;top: 0;left: 0;display: none;}
+	</style>
+	<script>
+		window.onload=function(){
+			var oTab=new CreateTab();
+		}
+		function CreateTab(){
+			this.aInput=document.getElementsByTagName('input');
+			this.aLi=document.getElementsByTagName('li');
+			var _this=this; //_this是oTab
+			for (var i = 0; i < this.aInput.length; i++) {
+				this.aInput[i].index=i;
+				this.aInput[i].onclick=function(){
+					_this.show(this);  //this 按钮
+				}
+			}
+		}
+		CreateTab.prototype.show=function(obj){
+			for (var i = 0; i < this.aLi.length; i++) {
+				this.aLi[i].style.display='none';
+				this.aInput[i].className='';
+			}
+			obj.className='active';
+			this.aLi[obj.index].style.display='block';
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="111" class="active">
+	<input type="button" value="222">
+	<input type="button" value="333">
+	<input type="button" value="444">
+	<ul>
+		<li style="display:block;">111</li>
+		<li>222</li>
+		<li>333</li>
+		<li>444</li>
+	</ul>
+</body>
+</html>

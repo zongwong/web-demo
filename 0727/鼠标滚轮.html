@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鼠标滚轮</title>
+	<style>
+		#box{height: 100px;width: 100px;background: red;}
+		body{height: 2000px;}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+	<script>
+		var oBox=document.getElementById('box');
+		var btn=null;
+		if (oBox.addEventListener) {
+			oBox.addEventListener('DOMMouseScroll',show,false);
+		}
+		oBox.onmousewheel=show;
+		function show(ev){
+			var ev=ev||window.event;
+			if (ev.detail) {
+				btn=ev.detail<0?true:false;
+			} else {
+				btn=ev.wheelDelta>0?true:false;
+			}
+			if (btn) {
+				oBox.style.height=oBox.offsetHeight-10+'px';
+			} else {
+				oBox.style.height=oBox.offsetHeight+10+'px';
+			}
+			if (ev.preventDefault) {
+				ev.preventDefault();
+			}else{
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>
